@@ -1,0 +1,292 @@
+/* --- Глобальні стилі та Скидання --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif; /* Пріоритет Comic Neue, потім Comic Sans */
+  box-sizing: border-box;
+  background-color: #222; /* Базовий фон на випадок затримки завантаження */
+  color: white; /* Базовий колір тексту */
+}
+
+body {
+  min-height: 100vh;
+  overflow: hidden; /* Ховаємо скролбари */
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+#app {
+  position: relative; /* Контейнер для сцен */
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Базові стилі для всіх сцен --- */
+.scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Завжди на весь екран */
+  padding: 30px; /* Відступи всередині сцени */
+
+  /* Центрування контенту */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* По вертикалі */
+  align-items: center;     /* По горизонталі */
+  text-align: center;
+
+  /* Стан за замовчуванням: невидима */
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden; /* Додатково для надійності */
+  transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out; /* Плавний перехід */
+
+  /* Налаштування фону (зображення/колір будуть задані через ID) */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Фіксуємо фон */
+
+  /* Забезпечення читабельності тексту */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Стиль для активної (видимої) сцени */
+.scene.active {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* Клас для надійного приховування (може бути не потрібен з opacity/visibility) */
+.scene.hidden {
+  /* opacity: 0; */
+  /* pointer-events: none; */
+  /* visibility: hidden; */
+  /* Можна залишити порожнім, якщо керуємо лише через .active */
+}
+
+/* --- Контейнер для контенту всередині сцени (допомагає з відступами та обмеженням ширини) --- */
+.content-container {
+  max-width: 1128px; /* Максимальна ширина контенту, як у твоїх прикладах */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px; /* Проміжок між елементами */
+  padding: 20px; /* Додаткові внутрішні відступи, якщо потрібно */
+}
+
+
+/* ----- ФОНИ ДЛЯ КОЖНОЇ СЦЕНИ ----- */
+/* !!! ВАЖЛИВО: Заміни шляхи та кольори на свої !!! */
+
+#scene-1 {
+  background-image: url('https://cdn.builder.io/api/v1/image/assets/TEMP/9d2d7b273347b0f1ae9de1d7cb913650951d3b15?placeholderIfAbsent=true&apiKey=2ec3c8b6bd3b4913afab77f9a33339aa'); /* Фон з першого прикладу */
+}
+
+#scene-2 {
+  background-image: url('https://cdn.builder.io/api/v1/image/assets/TEMP/b6c26a41e5c19c4a0279fb9bc72110e18cde2f8b'); /* Фон з другого прикладу */
+}
+
+#scene-3 {
+  background-image: url('https://lh3.googleusercontent.com/fife/ALs6j_EoLrwn7WJOuYoSWNIFNDcD6_Kj6vLwAM_H_prcchWKVTEXJTYRNTM_D20i0geWUb0OO3gL1ygRU25nmBu0L3ghNOz8dExgyhv1oFe2RaQ0PL1zIsMiyzTsgQUlF4DISKUMp9Q41bE3ryudGSy7bEaXesii56-dkTk_Yj3psVxUK7Mit02OHNMkwT9YIL865s93tAWyI-qZgWbc970CYcJWRiKo9jCGFmNomoZsPMAR1xZyJrgMVZyoDrtzicioEFNQMpE3N_w6f8qKQv1vtXIAsOd_zKg0XxOvCSUqx-G9xfh8NNyr8srKLpOBsJkJW7nqV7KwlFrnTEFePeON4hnnnVaJclTWsjOSQ1_EbypG9p8KqODTONeRGz8iXyCXiHaCS3M36wAD8OUqjbF9Et8lUdSLqLpaWgDLROSEUrd0pXfDN_nDl2H15C14X4TbVkxC6KAgyk9f1CEPirumzQ3yC7tUBwE1mksJS6g3lMZ_j5j4Vb0cp8WYTq2JLb74FhmECWX2aKRvk1jgkK4M8c_soSx6QkqHa5xmsuxoGSi5ajj9yzWlXgUGkDdBVRhldFB42YJSvX3xHJ6NTW2O6XH-JUcaDHSTd8DenPoyE1s21Ie8wfds_jmaGRbBqncboWfe3-fXG-mTH1LeOFWmrGljbfnCDv6nkJbyoxm2NGv5uwLqYrxJvtw_mzNcL3gLJWXd7PkQkdiOkzFHvrlZW2Zr5oSgtLfjsnzdVJh_TuA1egb4RWp_DBdqhvYGmZ-gp5QKqxW29BRHsjvDX6MaMfmRMatgT42t4EBF2Xto0ktdZ0SRjfkthmXSyduz7Ajja2GJssCanjeiOVJbKuM4d-U3BXPO-TELzwsBkr8XQHtNgKHGZ5QfJNqtfiggPElpnFwYiz87hCbRArtE2afVxQ4Mx2PItV5b4Ih4b0hiDyTDt7yjwQ1yQd83Tkypnu8QoSizFgt7B0NliYqGCFzG4uo5Q0tRCf1XxgWV6ciedW8enhMfjfBGRR9GydiK8THAUlRXMQrFGySiCOLzUIDV26poGY8FpHF-jylsrDjjtdglODd_mReaUf8qWvtSXDD0n_lg5oLZX4e_Kf96hkdwYlJilvP0CTBNLtHn49zG2PqLulDJnAmAMohhNt-pcdRj_NUy2xe9Z7eIzUc_T5XqP0s6iekjdZmA6y7PfgFyp1QX_JvkP3OQpunRKOAiNVM_1TTaXPpKs8xC5CTt0ehT-DAqHEBCg4fbJX9Wo9iB-tYh7gTtlTSSZJ_zBeytAOT-IrX8M3Gx3bP59Gz3QODMX9FiUsFZRaadvYsaatDfmAV2pFHsixLGy_EgVV68CK87R6KRxImSOs9uB5HEqqUzmzGI7qASIA5okInsRexHSHFgL2Ox4401b2hB7ibzbgHL6VfcNuqmkg3pT0PwUdahxwQV8dgl9oLjxTBdf2tJdjh2hHphYi8w3oT-VKo40YXbL6dMC2PB55R0UaljK9YznbCPQwv7Isgd5HdICa2V-0v06yrH-mLwe-vyzG_sEztJchVwmPEMTXYSv1tr0o0jG-wIRXhBYPYfcAjLDR564UYoG3lrobdR6DZG-uiHYTWgKLIr4UPSN-mIIfpcD7ZVN4KpBITC6_ij2QW18UgPVxBLZJ3Bythglv-zeqm4vzQ8Uwd9EvgXteQ9HVSvkfjjG-odZjKi6GbzBXsHKgr6FzQflXkeX1BNbNLo0vwN1N7dOrS9PK3M5E4Wo4ebxP5JrOkx8Ovx9AsImQ=w1920-h878'); /* Фон з другого прикладу */
+  /* Або можна задати зображення: */
+  /* background-image: url('../images/background_donkey.jpg'); */
+}
+
+#scene-4 {
+  background-image: url('https://lh3.googleusercontent.com/fife/ALs6j_EA64yTtwWNTpupZlFQbB_tSoedX5_XMal09NpOpaBaJjEe0DdmebA-bJGVUWzRx8w9FJ8TUDRKfOsqGsnaFmpnKB2_DHOK-MT600UtRahbNxjaC-RPUGkJ4j2czor6ew1mTjax7icLKeA2LAodeQxHoPVT53aVGELeE9YtKSryAGqEdmTcfurJyul4GuFXan8R_dXyjV3B4V8lLyrmr9yFqpFViCA1LRbI1VCCRvrxW2UupPxu68PR5cJ-tCAGrkaUf7QcZX3UKghjjCM1jodTGSQK9XlMewElCuE2w7moZEhZwmANs2aSPmU5_mfv-nxIjd06_636o8h7PDQ-9s5LIpwQqX_bOFA0c31E9HuRnFJ_jH7hddOyL2T0p8UItmRzng6tzk-vRJknnNVw3ATjQy2R6XdqIW3-_aIpn9Btw_9TeSdgvvsjF78qUz4g_paLZtXfwZG9mJfZ0TFmjocYbyIcLA-vOplgUl-aUh1avAacBZYNbVZba7ZipqpftiXAw3JUqhGwULrfmiml9k7B4X4pghCIxd2mC8ntQ2KkbTQDwiJgCiZ9LNLOC5FBWppgiU1lQIujxhVggcgTjEZLDWtl0f5VyWoZtJ0-MXFAVLhnrbykMPT8m6ocRM-4OSVmF_wfjSrA_cate15N13-OVSROjdjeTR-2MMEOPmyXxUN87qN6VVKZP0qWq9zNkRWMQlymmbt5PYJs3_bIjuEb3ToU-vrfI0Qy_VLeIwQolJRrtkVtXfOoe3z3hTNevgfc9ezIQcfbad7kn_r-A3K_5mXFLwgNkLFj8JcuZiHsDXwd_b4WqtLmdwcn8vXnOXLjQGhnnbxuP-ZxYWX5H_U4IUyGY0lwi-iuJKHEFKyA9K1nICeva0YixNdBdQLkx2HLguB5R7WNgvLe-fA82prIe602wQciA-RVmxXsrgkbOqP_vjyrAOqJBkOI_5-DC3uvWh8uwMLPwqd8MJKsv15Az40FZy3pJpXEeivvSe8m-U3nYaVabC-EiIwEY6yNtdhxfH284fmFi7fXC0oIWZd-cUaUBa6p2nKN8TLnMi_tjC9CWJ3dBI4x2mjsXx-0_FODdR2LgKE-7bBlyEDtPxOBqD_tmuH72CWfbKBSSlXA2xrmzz3lvKMZ5O-4i-EmT7UaHHHYqXwidsmLCx8Uen5SZIIsFP_k3Nxy-vA22H2roPSxMFOZNfaohyrasDiplU_5_y4zT6a34lNf6Y5b67HRO6leqH6TDpBrabmP4H-rk2yPCGeOU_IkB43iX12bpnBgUDCKG1vE03eWYTlcGxRwzK6SdNax53H3eyv2PRONcgcPZ79VmfqcLp0BlTGHcy8WGRKBucgoZOBB86b6hCXP3md-KF5nc46DUYm6hbOzAIt342JNI_H_3bf_fxEY__nc2p8WH_q0o2FXU0nXJUEbcnDfbZ5VdyOo_zK65jS_OByifhzYS5tlFi_dUUVFBhgEvJvNM-Q8rr7nxlrB0o127WzfKSdqW8VIsSFyDREg6KgzYPk9vFLK8n0cV964dT7tyxB834JtZ5OE1A4CRqQiByx56ol4tQf2xfqQU0wT97vPK_PpkIgLDrja0lMXLJbi01xzOLhW_xq_tobhM7eyQzX-YFxa_4OXS02C6cJ0AVLjp1h2ZldXrL0paYbfaGF2aKrga6ldbadI8-9bSCaq8kYaMoURGJLYCN9wcePLqJwe-b60rJfrVr46ZcLH0gr7Ejsf9jungc9Wr8THcP1_AwNJW4TsgA=w1920-h878'); /* Фон з четвертого прикладу */
+}
+
+#scene-5 {
+  /* Фон з п'ятого прикладу (градієнт) */
+  background-image: url('https://lh3.googleusercontent.com/fife/ALs6j_GJOvPFevw1JwHd00128FGRdEzj-UMu8Z7aa6ezNWu50rT1s8QOPjtcIFfGTqhTf9L1wqqtq5lmWJ3LwnID8hCLYfGACFvNG6JgLb9DtmLH_lIdRk0rtLE910Soh-k0MxvbjyYMW-h_2BK1zrNH07CPxLQN84A4jtfRcEysa5SiKi1vUQRXEiuBIFsntMfrNqo8GvzftIvEogFWU3dDRIVSfzxLAXANj-ZMGZKhT1bO4oI58LGmqrtjR2mwedfOxlD6xDevJNvn7kMnQ9inQ-KTWiCUI-avyqiMMuJzMTS4o3onF9WpANEHRI3O64qcPeL0nOoMB_D0H5kEbxDS4E10gT3fS1yAq8FIDhiZwfYt-HiBT3eM5rGXMmd3ES9tu8V6FjjH6SkTwXBtNSd-m3VvQj5he8iFZRG28jNYfXWrZF3v7i5BpjYtxtmz0s2i3jMSPZthwVTfHcrgn_-0QKtqeWRYjix8Gg1Y8TZaKvaoEDNfv3LyT1is2pWxYIZrqL1O2D1t11CqE3-8WRDKHgywucsEHMmRhc-4Gw6OobrwoVgxKBDDXuB_Z3yGZHBBSzZk-Hs-cKGUQ-wBqoiFIzZnPaxMY6icBeuy3xn8nuVcc74cfbkHHTmKqnIpbe5XA8iyeldCWkaSv3JGBdt9mBKH2zc8JOpIJXUuBpZH70Bekh0DCmM4zl2G5yixLtcYYTgcRPEzJxDLJQ22pWmuSGX2u3f8LWbq-SFEyJp-IFTftfXlclWqZawWd2D2GJNbeIaz7AFhuzZV1wSSwtEmcHCbHn5Whj-OvOKE-LdTfDsVax3edWANqDLsiIE1kXbvGKuMNEUj5bIsdd3S-CzbSurrBfnoWhSwbIWcVUM7SSvCObnFNzCfUZYJ6UkOyIesoO3epDF0OCLWHgjaZ3m9WBn_YM1WgN6uaGti7ZxegRgAO17bf4xyjovUFOMrsuLcRkYWfxuENT6z0koUPT-4ttE8nja-mXzdgHHBykGNU-yxwCrd0DddYvgrgaaQepyDNN2kyeV8__sKWk_G3r3uwDQiqHeZ4jg77SnsTkZ8Rdif2L2en2wZBFV40f_wZlOrzzFxUbgAHROxTm8fCfJEWiCJuorTf2yCyO1TRrzOWr2Bt1Tqhh4wTWHnukzzDhrbaH8opXMKyJAqbGFMyknNBsEHXBWP7B5JDy_WjKcbdf9gxAu6ze-D9zCGDdU3d2U3HwC79hYLBzyllbh2Y8nkfw_ehSzJDfJxFhW4MErt1bUzxcp8KGRaJqGmVerwdpT0uwKJZQRSqLJYBPgXKHaM9313K6sLcFE0WjScgaPF4ybUXg27hfawgANmmLJe3mBFcnUYGh-BrgDhZOrfEmzEehMLnHnbukbh6Y4kfuhNEoluX2tdS49R0LNAkR9lZKShRQB3Nnch0sg-sxHz5vDa6K0xtbVMLFoiaGt0CZcQTD89evEXlEBHXDa-S0WN_3BQcxApSdnF2tES9k6c8gE9tM1ENSwQDun28rObrxyGoByqb-4RxhP0i0XNsmNb80Teu74cjAlOommsxvQCLrDTNUcquUhlSo5RkUu9imhdhfv2ZnQkNBUPobCS4ViRQNafNQtHcIM0fPokaCb3Rr8qqzT8f5B5yTUPH6tSN9whogu0i3eeGMlvtO365PCyd1BM1iVz0gEpLxjqVnHl8acWWxSFxXFRNqZLCaQaZPM-uBCDUqaVPlTxL9bzWXtJsT9QWmmg6LvzgaikfkPAciD1VV9rvAWCjcm1_g=w1920-h878'); /* Фон з другого прикладу */
+}
+
+#final-reveal {
+  /* Задай свій фон для фінальної сцени */
+  background-image: url('../images/background_reveal.jpg'); /* ЗАМІНИ ШЛЯХ */
+  /* Або колір: */
+  /* background-color: #5a3a8b; */
+}
+
+/* --- Стилізація Тексту та Елементів (взято з твоїх прикладів і адаптовано) --- */
+
+/* Сцена 1 */
+.main-title {
+  font-size: clamp(24px, 5vw, 40px); /* Адаптивний розмір */
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+.main-title .highlight {
+  color: #b5e3a1; /* Або інший колір для виділення */
+}
+.subtitle, .description {
+  font-size: clamp(16px, 3vw, 22px);
+  line-height: 1.5;
+  margin-bottom: 1em;
+}
+
+/* Сцена 2 */
+.story-intro {
+  font-size: clamp(22px, 4.5vw, 36px);
+  font-weight: 700;
+  line-height: 1.4;
+}
+.discovery-text {
+  font-size: clamp(18px, 4vw, 28px);
+  font-weight: 700;
+  background: linear-gradient(90deg, #ff1b1b 0%, #19ff34 25%, #ff00b2 42.79%, #923cd3 67.31%, #008cff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Сцена 3 */
+.donkey-quote {
+  font-size: clamp(20px, 4vw, 32px);
+  font-weight: 700;
+  max-width: 800px;
+}
+.donkey-quote .quote-intro {
+  color: #b5e3a1; /* Зеленуватий, як у прикладі */
+}
+.donkey-quote .quote-text {
+  color: #ffffff;
+}
+
+/* Сцена 4 */
+.intro-text, .shrek-quote {
+  font-size: clamp(20px, 4vw, 32px);
+  font-weight: 700;
+  max-width: 800px;
+  line-height: 1.5;
+}
+.shrek-quote span {
+  display: inline-block; /* Щоб переноси рядків працювали краще */
+  margin-bottom: 0.3em;
+}
+
+/* Сцена 5 */
+.message-heading, .message-subheading, .message-text {
+  font-size: clamp(20px, 4vw, 32px);
+  font-weight: 700;
+  max-width: 800px;
+  line-height: 1.5;
+}
+.message-heading { color: #4a2e00; } /* Темніший для контрасту на жовтому */
+.message-subheading { color: #003380; } /* Темніший для контрасту на синьому */
+.message-text { color: #ffffff; background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px;} /* Зробимо текст помітнішим */
+
+.personal-message em {
+  font-style: normal; /* Забираємо курсив, якщо не потрібен */
+  font-weight: bold;
+  display: block; /* Щоб кожен рядок був окремо */
+  line-height: 1.6;
+}
+
+.image-gallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Проміжок між картинками */
+  flex-wrap: wrap; /* Переносити на новий рядок на малих екранах */
+  margin-bottom: 20px;
+}
+.gallery-image {
+  max-width: clamp(150px, 30vw, 300px); /* Адаптивний розмір зображень */
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Фінальна сцена */
+#final-reveal h2 {
+  font-size: clamp(24px, 5vw, 40px);
+  margin-bottom: 1em;
+}
+.final-gif {
+  max-width: clamp(200px, 40vw, 350px);
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 1em;
+}
+.footer-note {
+  font-size: clamp(14px, 2.5vw, 18px);
+  opacity: 0.8;
+  margin-top: 1.5em;
+}
+
+
+/* --- Стилізація Кнопок (узагальнена) --- */
+.scene-button { /* Спільний клас для всіх кнопок навігації */
+  padding: 15px 40px;
+  border-radius: 13px;
+  border: 4px solid #a88f5b; /* Трохи тонший бордер */
+  color: #392704;
+  font-family: inherit; /* Використовувати основний шрифт */
+  font-size: clamp(16px, 3vw, 20px);
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  background-color: #c6a869;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  display: inline-block; /* Щоб кнопка не розтягувалась */
+}
+
+.scene-button:hover {
+  background-color: #d4b97f;
+  transform: translateY(-2px);
+}
+
+.scene-button:active {
+  transform: translateY(0px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* --- Медіа-запити для адаптивності --- */
+@media (max-width: 768px) {
+  .content-container {
+    gap: 20px;
+    padding: 15px;
+  }
+  .scene {
+    padding: 20px;
+  }
+  .scene-button {
+    padding: 12px 30px;
+    width: auto; /* Дозволити кнопці бути по ширині контенту */
+    min-width: 150px; /* Мінімальна ширина */
+  }
+  .image-gallery {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-container {
+    gap: 15px;
+    padding: 10px;
+  }
+  .scene {
+    padding: 15px;
+  }
+  .scene-button {
+    padding: 10px 25px;
+    width: 80%; /* Зробити ширшими на дуже малих екранах */
+    max-width: 300px;
+  }
+  .gallery-image {
+    max-width: clamp(120px, 40vw, 200px);
+  }
+  .final-gif {
+    max-width: clamp(150px, 50vw, 250px);
+  }
+}
