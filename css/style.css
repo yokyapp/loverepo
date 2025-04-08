@@ -1,0 +1,433 @@
+/* --- Глобальні стилі та Скидання --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
+  box-sizing: border-box;
+  background-color: #1a1a1a; /* Трохи світліший темний фон */
+  color: #f0f0f0; /* Трохи м'якший білий */
+  overflow: hidden; /* Ховаємо скролбари */
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+#app {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Використовуємо vh для висоти */
+}
+
+/* --- Кнопки керування музикою --- */
+.audio-controls {
+  position: fixed; /* Фіксуємо на екрані */
+  top: 15px;
+  right: 15px;
+  z-index: 1000; /* Поверх інших елементів */
+}
+
+.audio-controls button {
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid #a88f5b;
+  color: #f0f0f0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 5px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.audio-controls button:hover {
+  background-color: rgba(40, 40, 40, 0.8);
+  transform: scale(1.1);
+}
+
+/* --- Базові стилі для всіх сцен --- */
+.scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* Використовуємо 100% батьківського елемента (#app) */
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out; /* Плавніший перехід */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  transform: scale(1.05); /* Початковий стан для анімації входу */
+}
+
+.scene.active {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transform: scale(1); /* Повертаємо до нормального розміру при активації */
+}
+
+/* Анімація виходу */
+@keyframes sceneExit {
+  0%   { opacity: 1; transform: scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: scale(0.8) rotate(-5deg); pointer-events: none; } /* Трохи зменшуємо і повертаємо */
+}
+
+.scene.exit {
+  animation: sceneExit 0.6s ease-out forwards;
+  /* Важливо! 'forwards' зберігає кінцевий стан анімації */
+}
+
+/* --- Контейнер для контенту --- */
+.content-container {
+  max-width: 1128px;
+  width: 90%; /* Використовуємо відсотки для кращої адаптивності */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+}
+
+/* ----- ФОНИ ДЛЯ КОЖНОЇ СЦЕНИ ----- */
+#scene-1 {
+  background-image: url('https://cdn.builder.io/api/v1/image/assets/TEMP/9d2d7b273347b0f1ae9de1d7cb913650951d3b15?placeholderIfAbsent=true&apiKey=2ec3c8b6bd3b4913afab77f9a33339aa');
+}
+#scene-2 {
+  background-image: url('https://cdn.builder.io/api/v1/image/assets/TEMP/b6c26a41e5c19c4a0279fb9bc72110e18cde2f8b');
+}
+#scene-3 {
+  /* Додав трохи прозорості, щоб текст був читабельнішим */
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://lh3.googleusercontent.com/fife/ALs6j_EoLrwn7WJOuYoSWNIFNDcD6_Kj6vLwAM_H_prcchWKVTEXJTYRNTM_D20i0geWUb0OO3gL1ygRU25nmBu0L3ghNOz8dExgyhv1oFe2RaQ0PL1zIsMiyzTsgQUlF4DISKUMp9Q41bE3ryudGSy7bEaXesii56-dkTk_Yj3psVxUK7Mit02OHNMkwT9YIL865s93tAWyI-qZgWbc970CYcJWRiKo9jCGFmNomoZsPMAR1xZyJrgMVZyoDrtzicioEFNQMpE3N_w6f8qKQv1vtXIAsOd_zKg0XxOvCSUqx-G9xfh8NNyr8srKLpOBsJkJW7nqV7KwlFrnTEFePeON4hnnnVaJclTWsjOSQ1_EbypG9p8KqODTONeRGz8iXyCXiHaCS3M36wAD8OUqjbF9Et8lUdSLqLpaWgDLROSEUrd0pXfDN_nDl2H15C14X4TbVkxC6KAgyk9f1CEPirumzQ3yC7tUBwE1mksJS6g3lMZ_j5j4Vb0cp8WYTq2JLb74FhmECWX2aKRvk1jgkK4M8c_soSx6QkqHa5xmsuxoGSi5ajj9yzWlXgUGkDdBVRhldFB42YJSvX3xHJ6NTW2O6XH-JUcaDHSTd8DenPoyE1s21Ie8wfds_jmaGRbBqncboWfe3-fXG-mTH1LeOFWmrGljbfnCDv6nkJbyoxm2NGv5uwLqYrxJvtw_mzNcL3gLJWXd7PkQkdiOkzFHvrlZW2Zr5oSgtLfjsnzdVJh_TuA1egb4RWp_DBdqhvYGmZ-gp5QKqxW29BRHsjvDX6MaMfmRMatgT42t4EBF2Xto0ktdZ0SRjfkthmXSyduz7Ajja2GJssCanjeiOVJbKuM4d-U3BXPO-TELzwsBkr8XQHtNgKHGZ5QfJNqtfiggPElpnFwYiz87hCbRArtE2afVxQ4Mx2PItV5b4Ih4b0hiDyTDt7yjwQ1yQd83Tkypnu8QoSizFgt7B0NliYqGCFzG4uo5Q0tRCf1XxgWV6ciedW8enhMfjfBGRR9GydiK8THAUlRXMQrFGySiCOLzUIDV26poGY8FpHF-jylsrDjjtdglODd_mReaUf8qWvtSXDD0n_lg5oLZX4e_Kf96hkdwYlJilvP0CTBNLtHn49zG2PqLulDJnAmAMohhNt-pcdRj_NUy2xe9Z7eIzUc_T5XqP0s6iekjdZmA6y7PfgFyp1QX_JvkP3OQpunRKOAiNVM_1TTaXPpKs8xC5CTt0ehT-DAqHEBCg4fbJX9Wo9iB-tYh7gTtlTSSZJ_zBeytAOT-IrX8M3Gx3bP59Gz3QODMX9FiUsFZRaadvYsaatDfmAV2pFHsixLGy_EgVV68CK87R6KRxImSOs9uB5HEqqUzmzGI7qASIA5okInsRexHSHFgL2Ox4401b2hB7ibzbgHL6VfcNuqmkg3pT0PwUdahxwQV8dgl9oLjxTBdf2tJdjh2hHphYi8w3oT-VKo40YXbL6dMC2PB55R0UaljK9YznbCPQwv7Isgd5HdICa2V-0v06yrH-mLwe-vyzG_sEztJchVwmPEMTXYSv1tr0o0jG-wIRXhBYPYfcAjLDR564UYoG3lrobdR6DZG-uiHYTWgKLIr4UPSN-mIIfpcD7ZVN4KpBITC6_ij2QW18UgPVxBLZJ3Bythglv-zeqm4vzQ8Uwd9EvgXteQ9HVSvkfjjG-odZjKi6GbzBXsHKgr6FzQflXkeX1BNbNLo0vwN1N7dOrS9PK3M5E4Wo4ebxP5JrOkx8Ovx9AsImQ=w1920-h878');
+  background-size: cover;
+  background-position: center;
+}
+#scene-4 {
+  background-image: url('https://lh3.googleusercontent.com/fife/ALs6j_EA64yTtwWNTpupZlFQbB_tSoedX5_XMal09NpOpaBaJjEe0DdmebA-bJGVUWzRx8w9FJ8TUDRKfOsqGsnaFmpnKB2_DHOK-MT600UtRahbNxjaC-RPUGkJ4j2czor6ew1mTjax7icLKeA2LAodeQxHoPVT53aVGELeE9YtKSryAGqEdmTcfurJyul4GuFXan8R_dXyjV3B4V8lLyrmr9yFqpFViCA1LRbI1VCCRvrxW2UupPxu68PR5cJ-tCAGrkaUf7QcZX3UKghjjCM1jodTGSQK9XlMewElCuE2w7moZEhZwmANs2aSPmU5_mfv-nxIjd06_636o8h7PDQ-9s5LIpwQqX_bOFA0c31E9HuRnFJ_jH7hddOyL2T0p8UItmRzng6tzk-vRJknnNVw3ATjQy2R6XdqIW3-_aIpn9Btw_9TeSdgvvsjF78qUz4g_paLZtXfwZG9mJfZ0TFmjocYbyIcLA-vOplgUl-aUh1avAacBZYNbVZba7ZipqpftiXAw3JUqhGwULrfmiml9k7B4X4pghCIxd2mC8ntQ2KkbTQDwiJgCiZ9LNLOC5FBWppgiU1lQIujxhVggcgTjEZLDWtl0f5VyWoZtJ0-MXFAVLhnrbykMPT8m6ocRM-4OSVmF_wfjSrA_cate15N13-OVSROjdjeTR-2MMEOPmyXxUN87qN6VVKZP0qWq9zNkRWMQlymmbt5PYJs3_bIjuEb3ToU-vrfI0Qy_VLeIwQolJRrtkVtXfOoe3z3hTNevgfc9ezIQcfbad7kn_r-A3K_5mXFLwgNkLFj8JcuZiHsDXwd_b4WqtLmdwcn8vXnOXLjQGhnnbxuP-ZxYWX5H_U4IUyGY0lwi-iuJKHEFKyA9K1nICeva0YixNdBdQLkx2HLguB5R7WNgvLe-fA82prIe602wQciA-RVmxXsrgkbOqP_vjyrAOqJBkOI_5-DC3uvWh8uwMLPwqd8MJKsv15Az40FZy3pJpXEeivvSe8m-U3nYaVabC-EiIwEY6yNtdhxfH284fmFi7fXC0oIWZd-cUaUBa6p2nKN8TLnMi_tjC9CWJ3dBI4x2mjsXx-0_FODdR2LgKE-7bBlyEDtPxOBqD_tmuH72CWfbKBSSlXA2xrmzz3lvKMZ5O-4i-EmT7UaHHHYqXwidsmLCx8Uen5SZIIsFP_k3Nxy-vA22H2roPSxMFOZNfaohyrasDiplU_5_y4zT6a34lNf6Y5b67HRO6leqH6TDpBrabmP4H-rk2yPCGeOU_IkB43iX12bpnBgUDCKG1vE03eWYTlcGxRwzK6SdNax53H3eyv2PRONcgcPZ79VmfqcLp0BlTGHcy8WGRKBucgoZOBB86b6hCXP3md-KF5nc46DUYm6hbOzAIt342JNI_H_3bf_fxEY__nc2p8WH_q0o2FXU0nXJUEbcnDfbZ5VdyOo_zK65jS_OByifhzYS5tlFi_dUUVFBhgEvJvNM-Q8rr7nxlrB0o127WzfKSdqW8VIsSFyDREg6KgzYPk9vFLK8n0cV964dT7tyxB834JtZ5OE1A4CRqQiByx56ol4tQf2xfqQU0wT97vPK_PpkIgLDrja0lMXLJbi01xzOLhW_xq_tobhM7eyQzX-YFxa_4OXS02C6cJ0AVLjp1h2ZldXrL0paYbfaGF2aKrga6ldbadI8-9bSCaq8kYaMoURGJLYCN9wcePLqJwe-b60rJfrVr46ZcLH0gr7Ejsf9jungc9Wr8THcP1_AwNJW4TsgA=w1920-h878');
+}
+#scene-5 {
+  background-image: url('https://lh3.googleusercontent.com/fife/ALs6j_GJOvPFevw1JwHd00128FGRdEzj-UMu8Z7aa6ezNWu50rT1s8QOPjtcIFfGTqhTf9L1wqqtq5lmWJ3LwnID8hCLYfGACFvNG6JgLb9DtmLH_lIdRk0rtLE910Soh-k0MxvbjyYMW-h_2BK1zrNH07CPxLQN84A4jtfRcEysa5SiKi1vUQRXEiuBIFsntMfrNqo8GvzftIvEogFWU3dDRIVSfzxLAXANj-ZMGZKhT1bO4oI58LGmqrtjR2mwedfOxlD6xDevJNvn7kMnQ9inQ-KTWiCUI-avyqiMMuJzMTS4o3onF9WpANEHRI3O64qcPeL0nOoMB_D0H5kEbxDS4E10gT3fS1yAq8FIDhiZwfYt-HiBT3eM5rGXMmd3ES9tu8V6FjjH6SkTwXBtNSd-m3VvQj5he8iFZRG28jNYfXWrZF3v7i5BpjYtxtmz0s2i3jMSPZthwVTfHcrgn_-0QKtqeWRYjix8Gg1Y8TZaKvaoEDNfv3LyT1is2pWxYIZrqL1O2D1t11CqE3-8WRDKHgywucsEHMmRhc-4Gw6OobrwoVgxKBDDXuB_Z3yGZHBBSzZk-Hs-cKGUQ-wBqoiFIzZnPaxMY6icBeuy3xn8nuVcc74cfbkHHTmKqnIpbe5XA8iyeldCWkaSv3JGBdt9mBKH2zc8JOpIJXUuBpZH70Bekh0DCmM4zl2G5yixLtcYYTgcRPEzJxDLJQ22pWmuSGX2u3f8LWbq-SFEyJp-IFTftfXlclWqZawWd2D2GJNbeIaz7AFhuzZV1wSSwtEmcHCbHn5Whj-OvOKE-LdTfDsVax3edWANqDLsiIE1kXbvGKuMNEUj5bIsdd3S-CzbSurrBfnoWhSwbIWcVUM7SSvCObnFNzCfUZYJ6UkOyIesoO3epDF0OCLWHgjaZ3m9WBn_YM1WgN6uaGti7ZxegRgAO17bf4xyjovUFOMrsuLcRkYWfxuENT6z0koUPT-4ttE8nja-mXzdgHHBykGNU-yxwCrd0DddYvgrgaaQepyDNN2kyeV8__sKWk_G3r3uwDQiqHeZ4jg77SnsTkZ8Rdif2L2en2wZBFV40f_wZlOrzzFxUbgAHROxTm8fCfJEWiCJuorTf2yCyO1TRrzOWr2Bt1Tqhh4wTWHnukzzDhrbaH8opXMKyJAqbGFMyknNBsEHXBWP7B5JDy_WjKcbdf9gxAu6ze-D9zCGDdU3d2U3HwC79hYLBzyllbh2Y8nkfw_ehSzJDfJxFhW4MErt1bUzxcp8KGRaJqGmVerwdpT0uwKJZQRSqLJYBPgXKHaM9313K6sLcFE0WjScgaPF4ybUXg27hfawgANmmLJe3mBFcnUYGh-BrgDhZOrfEmzEehMLnHnbukbh6Y4kfuhNEoluX2tdS49R0LNAkR9lZKShRQB3Nnch0sg-sxHz5vDa6K0xtbVMLFoiaGt0CZcQTD89evEXlEBHXDa-S0WN_3BQcxApSdnF2tES9k6c8gE9tM1ENSwQDun28rObrxyGoByqb-4RxhP0i0XNsmNb80Teu74cjAlOommsxvQCLrDTNUcquUhlSo5RkUu9imhdhfv2ZnQkNBUPobCS4ViRQNafNQtHcIM0fPokaCb3Rr8qqzT8f5B5yTUPH6tSN9whogu0i3eeGMlvtO365PCyd1BM1iVz0gEpLxjqVnHl8acWWxSFxXFRNqZLCaQaZPM-uBCDUqaVPlTxL9bzWXtJsT9QWmmg6LvzgaikfkPAciD1VV9rvAWCjcm1_g=w1920-h878');
+}
+#final-reveal {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://media.giphy.com/media/QENnRdIEiXwA0/giphy.gif?cid=ecf05e47ijfdvrm26g7a8lyf675rd0ld7zcrvx1u033kc6ur&ep=v1_gifs_search&rid=giphy.gif&ct=g'); /* Фон з гіфки для фіналу! */
+  background-size: cover;
+  background-position: center;
+}
+
+/* --- Стилізація Тексту та Елементів --- */
+.main-title {
+  font-size: clamp(28px, 6vw, 48px);
+  font-weight: 700;
+  margin-bottom: 0.5em;
+  color: #e0e0e0; /* Світліший колір */
+}
+.main-title .highlight {
+  color: #90ee90; /* Світло-зелений */
+  display: inline-block; /* Щоб анімація працювала коректно */
+}
+.subtitle, .description {
+  font-size: clamp(16px, 3.5vw, 24px);
+  line-height: 1.6;
+  margin-bottom: 1em;
+  max-width: 700px; /* Обмежимо ширину для кращої читабельності */
+}
+.story-intro {
+  font-size: clamp(24px, 5vw, 40px);
+  font-weight: 700;
+  line-height: 1.4;
+}
+.discovery-text {
+  font-size: clamp(20px, 4.5vw, 32px);
+  font-weight: 700;
+  background: linear-gradient(90deg, #ff3b3b 0%, #34ff51 25%, #ff00d4 42.79%, #a94cf0 67.31%, #00a2ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 10px;
+  border: 2px dashed yellow; /* Додамо трохи "дизайну" */
+  display: inline-block;
+}
+.donkey-quote, .shrek-quote {
+  font-size: clamp(20px, 4.5vw, 36px);
+  font-weight: 700;
+  max-width: 800px;
+  line-height: 1.5;
+  background-color: rgba(0, 0, 0, 0.3); /* Легкий фон для цитат */
+  padding: 20px;
+  border-radius: 15px;
+  border-left: 5px solid #b5e3a1;
+}
+.donkey-quote .quote-intro { color: #b5e3a1; display: block; margin-bottom: 10px; }
+.donkey-quote .quote-text { color: #ffffff; }
+.intro-text {
+  font-size: clamp(20px, 4.5vw, 36px);
+  font-weight: 700;
+  margin-bottom: 1em;
+}
+.shrek-quote span { display: block; margin-bottom: 0.5em; }
+
+/* Сцена 5 */
+.message-heading, .message-subheading, .message-text {
+  font-size: clamp(22px, 4.5vw, 36px);
+  font-weight: 700;
+  max-width: 850px;
+  line-height: 1.5;
+}
+/* Налаштування кольорів для фону сцени 5 (якщо він світлий) */
+/* #scene-5 .message-heading { color: #4a2e00; } */
+/* #scene-5 .message-subheading { color: #003380; } */
+/* #scene-5 .message-text { color: #ffffff; background-color: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px;} */
+
+/* Якщо фон темний, можна залишити білий/світлий текст */
+.message-heading { color: #f5d76e; } /* Золотистий */
+.message-subheading { color: #87cefa; } /* Світло-синій */
+.message-text { color: #ffffff; background-color: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px;}
+
+.personal-message em {
+  font-style: italic; /* Залишимо курсив для особистого повідомлення */
+  font-weight: bold;
+  display: block;
+  line-height: 1.7;
+}
+
+.image-gallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+  width: 100%;
+}
+.gallery-image {
+  max-width: clamp(180px, 35vw, 320px);
+  height: auto;
+  border-radius: 15px; /* Більше заокруглення */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+  border: 3px solid #a88f5b; /* Рамка в стилі кнопок */
+  background-color: #333; /* Фон на випадок прозорих гіфок */
+  display: block; /* Забирає зайвий відступ знизу */
+}
+
+/* Фінальна сцена */
+#final-reveal h2 {
+  font-size: clamp(28px, 6vw, 48px);
+  margin-bottom: 1em;
+  color: #ffeb3b; /* Яскраво-жовтий */
+}
+.final-gif {
+  max-width: clamp(250px, 45vw, 400px);
+  height: auto;
+  border-radius: 20px;
+  margin-bottom: 1.5em;
+  border: 4px solid #ff8c00; /* Помаранчева рамка */
+  box-shadow: 0 0 25px rgba(255, 140, 0, 0.6); /* Світіння */
+}
+.footer-note {
+  font-size: clamp(14px, 3vw, 20px);
+  opacity: 0.9;
+  margin-top: 2em;
+  color: #cccccc;
+}
+
+/* --- Стилізація Кнопок --- */
+.scene-button {
+  padding: 18px 45px;
+  border-radius: 50px; /* Зробимо їх круглішими */
+  border: 5px solid #a88f5b;
+  color: #392704;
+  font-family: inherit;
+  font-size: clamp(18px, 3.5vw, 22px);
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  background: linear-gradient(145deg, #d4b97f, #b89b63); /* Градієнт для кнопки */
+  transition: all 0.3s ease; /* Анімуємо всі властивості */
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3), inset 0 -3px 5px rgba(0,0,0,0.2); /* Додамо тінь і внутрішню тінь */
+  display: inline-block;
+  text-transform: uppercase; /* Великі літери */
+  letter-spacing: 1px;
+}
+
+.scene-button:hover {
+  background: linear-gradient(145deg, #e0c48f, #c6a869);
+  transform: translateY(-4px) scale(1.05); /* Більший підйом і збільшення */
+  box-shadow: 0 8px 15px rgba(0,0,0,0.4), inset 0 -2px 3px rgba(0,0,0,0.1);
+  border-color: #c7ad70;
+}
+
+.scene-button:active {
+  transform: translateY(0px) scale(1); /* Повертаємо при натисканні */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3), inset 0 -3px 5px rgba(0,0,0,0.3);
+}
+
+/* ----- НАШІ КРІНЖОВІ АНІМАЦІЇ ----- */
+
+/* 1. Крінж-танець (з попереднього прикладу) */
+@keyframes cringeDance {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  15%  { transform: rotate(8deg) scale(1.15) skewX(-5deg); }
+  30%  { transform: rotate(-8deg) scale(0.9) skewX(5deg); }
+  45%  { transform: rotate(5deg) scale(1.1) skewX(-3deg); }
+  60%  { transform: rotate(-5deg) scale(1.0) skewX(3deg); }
+  75%  { transform: rotate(2deg) scale(1.05) skewX(-1deg); }
+  90%  { transform: rotate(-2deg) scale(1.0) skewX(1deg); }
+}
+.cringe-animation {
+  display: inline-block; /* Потрібно для transform */
+  animation: cringeDance 2.5s infinite ease-in-out;
+}
+
+/* 2. Дикий ховер для кнопок (з попереднього прикладу) */
+@keyframes wildShake {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1.05); } /* Починаємо трохи збільшеними */
+  15%  { transform: translate(-4px, 4px) rotate(-4deg) scale(1.1); }
+  30%  { transform: translate(4px, -4px) rotate(4deg) scale(1.0); }
+  45%  { transform: translate(-4px, -4px) rotate(-4deg) scale(1.1); }
+  60%  { transform: translate(4px, 4px) rotate(4deg) scale(1.0); }
+  75%  { transform: translate(-2px, 2px) rotate(-2deg) scale(1.05); }
+  90%  { transform: translate(2px, -2px) rotate(2deg) scale(1.02); }
+  100% { transform: translate(0, 0) rotate(0deg) scale(1.05); } /* Повертаємо до стану ховеру */
+}
+.wild-hover:hover {
+  /* Застосовуємо базовий ховер + додаємо анімацію */
+  background: linear-gradient(145deg, #e0c48f, #c6a869);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.4), inset 0 -2px 3px rgba(0,0,0,0.1);
+  border-color: #c7ad70;
+  animation: wildShake 0.6s linear infinite; /* Безкінечна анімація при ховері */
+}
+/* Якщо безкінечна анімація занадто, можна зробити її одноразовою: */
+/* .wild-hover:hover { animation: wildShake 0.6s linear; } */
+
+/* 3. Закручування і збільшення для гіфок */
+@keyframes spinZoomIn {
+  0% {
+    transform: scale(0.01) rotate(0deg);
+    opacity: 0;
+    filter: blur(10px); /* Додамо розмиття на початку */
+  }
+  60% {
+    transform: scale(1.25) rotate(720deg); /* Більше збільшення і два оберти */
+    opacity: 1;
+    filter: blur(0px);
+  }
+  80% {
+    transform: scale(0.95) rotate(710deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(720deg);
+    opacity: 1;
+  }
+}
+.spin-zoom-gif {
+  transform-origin: center center;
+  opacity: 0; /* Починаємо невидимими */
+}
+/* Запуск анімації, коли сцена активна */
+.scene.active .spin-zoom-gif {
+  animation: spinZoomIn 1.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; /* Додав easing для "пружинного" ефекту */
+  animation-delay: 0.3s; /* Невелика затримка */
+  opacity: 1; /* Робимо видимим для старту анімації */
+}
+
+/* 4. Текст, що тремтить */
+@keyframes textShake {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  10% { transform: translateX(-2px) rotate(-0.5deg); }
+  20% { transform: translateX(2px) rotate(0.5deg); }
+  30% { transform: translateX(-2px) rotate(0.5deg); }
+  40% { transform: translateX(2px) rotate(-0.5deg); }
+  50% { transform: translateX(-1px) rotate(-0.2deg); }
+  60% { transform: translateX(1px) rotate(0.2deg); }
+  70% { transform: translateX(-1px) rotate(0.2deg); }
+  80% { transform: translateX(1px) rotate(-0.2deg); }
+  90% { transform: translateX(0) rotate(0deg); }
+}
+.shaky-text {
+  display: inline-block; /* Потрібно для transform */
+  animation: textShake 1s ease-in-out infinite;
+  animation-delay: var(--animate-delay); /* Якщо використовується з Animate.css */
+}
+
+/* 5. Тремтяча кнопка (можна застосувати .shaky-text або створити окрему) */
+.shaky-button:hover {
+  animation: textShake 0.5s linear infinite, wildShake 0.6s linear infinite; /* Комбінуємо анімації! */
+}
+
+
+/* --- Медіа-запити для адаптивності --- */
+@media (max-width: 768px) {
+  .content-container {
+    gap: 20px;
+    padding: 15px;
+    width: 95%;
+  }
+  .scene {
+    padding: 20px;
+  }
+  .scene-button {
+    padding: 15px 35px;
+    font-size: clamp(16px, 4vw, 20px);
+  }
+  .image-gallery {
+    gap: 20px;
+  }
+  .gallery-image {
+    max-width: clamp(150px, 40vw, 280px);
+  }
+  .final-gif {
+    max-width: clamp(200px, 60vw, 350px);
+  }
+}
+
+@media (max-width: 480px) {
+  .audio-controls {
+    top: 10px;
+    right: 10px;
+  }
+  .audio-controls button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  .content-container {
+    gap: 15px;
+    padding: 10px;
+  }
+  .scene {
+    padding: 15px;
+  }
+  .scene-button {
+    padding: 12px 30px;
+    width: 80%;
+    max-width: 300px;
+  }
+  .gallery-image {
+    max-width: clamp(120px, 50vw, 220px);
+    border-width: 2px;
+  }
+  .final-gif {
+    max-width: clamp(180px, 70vw, 300px);
+    border-width: 3px;
+  }
+  .donkey-quote, .shrek-quote {
+    padding: 15px;
+  }
+}
+
+/* Виправлення для Animate.css, щоб не конфліктувати з нашими transition */
+.animate__animated {
+  /* Можна додати --animate-duration тут, якщо потрібно змінити стандартну швидкість */
+  /* --animate-duration: 1s; */
+}

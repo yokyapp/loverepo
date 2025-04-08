@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Шоколадна Місія на Болоті</title>
+  <!-- Підключення Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- Підключення твоїх стилів -->
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Підключення шрифту -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- Музика (шлях до файлу краще зробити відносним або абсолютним) -->
+  <audio id="myAudio" loop>
+    <source src="img/rename.mp3" type="audio/mpeg"> <!-- Заміни шлях на правильний -->
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Кнопки керування музикою (можна винести за межі сцен або дублювати) -->
+  <div class="audio-controls">
+    <button id="playButton" onclick="playAudio()">▶️ Музика</button>
+    <button id="pauseButton" onclick="pauseAudio()" style="display: none;">⏸️ Музика</button>
+  </div>
+
+
+  <!-- Сцена 1: Вступ -->
+  <div id="scene-1" class="scene active">
+    <div class="content-container">
+      <header class="text-content">
+        <!-- Додаємо анімацію з Animate.css -->
+        <h1 class="main-title animate__animated animate__tada">
+          Ця історія написана болотом…<br />
+          але з <span class="highlight animate__animated animate__heartBeat animate__infinite animate__slower">любов'ю</span>
+        </h1>
+        <p class="subtitle animate__animated animate__fadeInUp">
+          Кажуть, я іноді буваю як огр... але навіть огри вміють вибачатись
+        </p>
+        <p class="description animate__animated animate__fadeInUp animate__delay-1s">
+          Цей сайт — моя спроба повернути твою посмішку. Готова до маленької болотяної пригоди?
+        </p>
+      </header>
+      <!-- Додаємо дикий ховер до кнопки -->
+      <button class="scene-button wild-hover" onclick="showScene('scene-2')">Почати пригоду</button>
+    </div>
+  </div>
+
+  <!-- Сцена 2: Знахідка -->
+  <div id="scene-2" class="scene hidden">
+    <div class="content-container">
+      <article class="narrative-section">
+        <!-- Додамо тремтіння тексту -->
+        <h1 class="story-intro shaky-text">
+          Ти бредеш похмурим болотом...<br />
+          Настрій, м'яко кажучи, не дуже.<br />
+          Десь сумно квакає жаба... Аж раптом!
+        </h1>
+        <!-- Зробимо текст, що "вибухає" -->
+        <p class="discovery-text animate__animated animate__flash">
+          Під старим грибом ти знаходиш... ЛЕГЕНДАРНУ ШОКОЛАДКУ ГАРНОГО НАСТРОЮ!
+        </p>
+      </article>
+      <div class="button-container">
+        <button class="scene-button wild-hover" onclick="showScene('scene-3')">Ого! Що далі?</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Сцена 3: Мудрість Осла -->
+  <div id="scene-3" class="scene hidden">
+    <div class="content-container">
+      <blockquote class="donkey-quote">
+        <span class="quote-intro animate__animated animate__bounceInDown">"Осел тут як тут:</span>
+        <!-- Крінж-танець для цитати осла -->
+        <span class="quote-text cringe-animation">
+          ОГО! ЦЕ Ж ВОНА! ШОКОЛАДКА ЩАСТЯ! Вона може розтопити навіть серце огра... ну, або просто зробити день трішки солодшим!
+        </span>
+      </blockquote>
+      <!-- Додамо тремтячу кнопку -->
+      <div class="button-container">
+        <button class="scene-button wild-hover shaky-button" onclick="showScene('scene-4')">Дякую, Осле! Піду шукати Шрека?</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Сцена 4: Розмова зі Шреком -->
+  <div id="scene-4" class="scene hidden">
+    <div class="content-container">
+      <!-- Легке гойдання для тексту -->
+      <h1 class="intro-text animate__animated animate__swing">
+        Ти показуєш Шреку шоколадку. Він дивиться, хмикає...
+      </h1>
+      <blockquote class="shrek-quote">
+        <span class="animate__animated animate__fadeInLeft">
+            Шрек: Хмф. Шоколадка. Добре... Але знаєш що краще за шоколадку?
+        </span>
+        <br />
+        <span class="animate__animated animate__fadeInRight animate__delay-1s">
+            Коли поруч той, хто тебе розуміє і приймає, навіть якщо ти іноді тупиш як справжній огр
+        </span>
+        <br />
+        <!-- Тремтячий текст -->
+        <span class="animate__animated animate__fadeInUp animate__delay-2s shaky-text">Дякую, що терпиш моє болото.</span>
+      </blockquote>
+      <button class="scene-button wild-hover" onclick="showScene('scene-5')">Це... все?</button>
+    </div>
+  </div>
+
+  <!-- Сцена 5: Фінал з гіфками -->
+  <div id="scene-5" class="scene hidden">
+    <div class="content-container">
+      <section class="image-gallery">
+        <figure class="image-wrapper">
+          <!-- Гіфка з анімацією закручування -->
+          <img src="https://i.giphy.com/QTrG6mjkHEkpFR3DqX.webp" alt="Smiling donkey" class="gallery-image spin-zoom-gif">
+        </figure>
+        <figure class="image-wrapper">
+          <!-- Друга гіфка з іншою анімацією для різноманіття -->
+          <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnJhNDI1M3hlcDM1MmR5eHE4dWVlMXZjZ2ZxYnVxNjh3Y3Y0MWY4eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/SLHJUzkOcplqE/giphy.gif" alt="Orange cat" class="gallery-image animate__animated animate__bounceIn animate__delay-1s">
+        </figure>
+      </section>
+
+      <h1 class="message-heading animate__animated animate__lightSpeedInRight">
+        Майже! Ця Легендарна Болотяна Шоколадка — не просто пікселі на екрані.
+      </h1>
+      <h2 class="message-subheading animate__animated animate__lightSpeedInLeft animate__delay-1s">Вона СПРАВЖНЯ. І вона чекає на тебе.</h2>
+      <p class="personal-message message-text animate__animated animate__fadeIn animate__delay-2s">
+        <em>
+          Вибач, якщо засмутив тебе тоді на зупинці.<br>
+          Та фраза була дурною звичкою, а не про тебе.<br>
+          Ти для мене дуже важлива киця ❤️<br>
+          Сподіваюсь, ця маленька дурниця і реальна шоколадка піднімуть тобі настрій.
+        </em>
+      </p>
+      <button class="scene-button wild-hover" onclick="showScene('final-reveal')">Посміхнутись? 😊</button>
+    </div>
+  </div>
+
+  <!-- Фінальний Сюрприз -->
+  <div id="final-reveal" class="scene hidden">
+    <div class="content-container">
+      <!-- Заголовок з крінж-анімацією -->
+      <h2 class="message-heading cringe-animation">
+        Все буде добре! 🤗
+      </h2>
+      <!-- Фінальна гіфка з закручуванням -->
+      <img src="https://media1.tenor.com/m/gRnRdgBucm8AAAAC/puuung-kiss-puuung.gif" alt="Танцюючий Осел" class="final-gif spin-zoom-gif">
+      <p class="footer-note animate__animated animate__fadeInUp animate__delay-1s">Зроблено з любов'ю на болоті 😉</p>
+      <!-- Додаткова кнопка для перезапуску або просто для фану -->
+      <button class="scene-button wild-hover" onclick="showScene('scene-1'); resetAnimations();">Ще раз?</button>
+    </div>
+  </div>
+
+</div> <!-- Кінець #app -->
+
+<script src="js/app.js"></script>
+</body>
+</html>
